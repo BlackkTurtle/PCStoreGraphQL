@@ -19,6 +19,11 @@ namespace PCStoreGraphQL.API.Queries
             try
             {
                 var results = await _unitOfWork.eFProductsRepository.GetAllAsync();
+                foreach (var product in results)
+                {
+                    product.Brand= await _unitOfWork.eFBrandsRepository.GetByIdAsync(product.BrandId);
+                    product.TypeNavigation = await _unitOfWork.EFTypesRepository.GetByIdAsync(product.Type);
+                }
                 return results;
             }
             catch (Exception ex)
@@ -31,6 +36,11 @@ namespace PCStoreGraphQL.API.Queries
             try
             {
                 var results = await _unitOfWork.eFProductsRepository.GetProductsByBrandAsync(id);
+                foreach (var product in results)
+                {
+                    product.Brand = await _unitOfWork.eFBrandsRepository.GetByIdAsync(product.BrandId);
+                    product.TypeNavigation = await _unitOfWork.EFTypesRepository.GetByIdAsync(product.Type);
+                }
                 return results;
             }
             catch (Exception ex)
@@ -44,6 +54,11 @@ namespace PCStoreGraphQL.API.Queries
             try
             {
                 var results = await _unitOfWork.eFProductsRepository.GetProductsByTypeAsync(id);
+                foreach (var product in results)
+                {
+                    product.Brand = await _unitOfWork.eFBrandsRepository.GetByIdAsync(product.BrandId);
+                    product.TypeNavigation = await _unitOfWork.EFTypesRepository.GetByIdAsync(product.Type);
+                }
                 return results;
             }
             catch (Exception ex)
@@ -57,6 +72,11 @@ namespace PCStoreGraphQL.API.Queries
             try
             {
                 var results = await _unitOfWork.eFProductsRepository.GetProductsByNameLikeAsync(namelike);
+                foreach (var product in results)
+                {
+                    product.Brand = await _unitOfWork.eFBrandsRepository.GetByIdAsync(product.BrandId);
+                    product.TypeNavigation = await _unitOfWork.EFTypesRepository.GetByIdAsync(product.Type);
+                }
                 return results;
             }
             catch (Exception ex)

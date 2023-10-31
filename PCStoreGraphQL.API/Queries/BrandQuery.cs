@@ -17,7 +17,12 @@ namespace PCStoreGraphQL.API.Queries
         }
         public async Task<IEnumerable<Brand>> GetBrands()
         {
-            return await _unitOfWork.eFBrandsRepository.GetAllAsync();
+            var results= await _unitOfWork.eFBrandsRepository.GetAllAsync();
+            foreach (var result in results)
+            {
+                result.Products = (ICollection<Product>)await _unitOfWork.eFProductsRepository.GetProductsByBrandAsync(result.BrandId);
+            }
+            return results;
         }
     }
 }

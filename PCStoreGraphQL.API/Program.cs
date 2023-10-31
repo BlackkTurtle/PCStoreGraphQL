@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using PCStoreGraphQL.API.DataLoaders;
 using PCStoreGraphQL.API.Mutations;
 using PCStoreGraphQL.API.Queries;
 using PCStoreGraphQL.API.Types;
@@ -43,8 +44,10 @@ builder.Services.AddGraphQLServer()
     .AddTypeExtension<UserMutation>()
     .AddTypeExtension<PartOrderMutation>()
     .AddTypeExtension<CommentMutation>();
+builder.Services.AddScoped<BrandDataLoader>();
 
-builder.Services.AddDbContext<PCStoreDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MSSQLConnection"), b => b.MigrationsAssembly("PCStoreGraphQL.API"))).AddIdentity<User, Role>(config =>
+builder.Services.AddDbContext<PCStoreDbContext>(options => options.UseSqlServer(
+    builder.Configuration.GetConnectionString("MSSQLConnection"), b => b.MigrationsAssembly("PCStoreGraphQL.API"))).AddIdentity<User, Role>(config =>
 {
     config.Password.RequireNonAlphanumeric = false;
     config.Password.RequireDigit = false;
